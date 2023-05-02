@@ -104,7 +104,11 @@ describe("Bella", () => {
     })
 
     it("Conditional Expressions", () => {
+        const alternateValue = new ConditionalExpression(new BinaryExpression(">=", new Numeral(3), new Numeral(10)), new Numeral(1), new Numeral(0)).interpret()
+        equal(alternateValue, 0)
 
+        const consequentValue = new ConditionalExpression(new BinaryExpression("<=", new Numeral(3), new Numeral(10)), new Numeral(1), new Numeral(0)).interpret()
+        equal(consequentValue, 1)
     })
 
     it("Unary Expressions", () => {
