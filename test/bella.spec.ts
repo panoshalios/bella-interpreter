@@ -1,8 +1,8 @@
-import interpret, { memory, VariableDeclaration, Identifier, Numeral,
+import interpret, { memory, output, VariableDeclaration, Identifier, Numeral,
      BooleanLiteral, Assignment, 
      FunctionDeclation, CallExpression, UnaryExpression, 
-     BinaryExpression, WhileStament, Block } from "../src/bella.js";
-import { equal } from "assert";
+     BinaryExpression, WhileStament, Block, ConditionalExpression, PrintStatement } from "../src/bella.js";
+import { equal, strictEqual, deepEqual } from "assert";
 
 // We will be using the bella memory to perfom our assertions
 describe("Bella", () => {
@@ -10,6 +10,8 @@ describe("Bella", () => {
     // Reset the memory after every test
     afterEach(() => {
         memory.clear()
+        // Hacky way to clear the output
+        output.length = 0
     })
 
     it("should save variables in memory", () => {
@@ -71,7 +73,6 @@ describe("Bella", () => {
         
         // Verify that X is still 10
         equal(memory.get('x'), 10)
-
     })
 
     it("should be able to call a predefined function", () => {
@@ -80,8 +81,9 @@ describe("Bella", () => {
         equal(value as number, Math.cos(10))
     })
 
-    it("Print statements", () => {
-
+    it("print an expression", () => {
+        new PrintStatement(new Numeral(4342)).interpret()
+        deepEqual(output, ["4342"])
     })
 
     it("use a while loop which can break", () => {
@@ -125,7 +127,11 @@ describe("Bella", () => {
     })
 
     it("Binary Expressions", () => {
-        
+
+    })
+
+    it("should be able to subscript into an array correctly", () => {
+
     })
 })
 
