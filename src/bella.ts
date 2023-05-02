@@ -1,5 +1,3 @@
-import util from 'util';
-
 // Defining the types
 type PredefinedFunc = (...args: number[]) => Value
 type FuncDec = [Identifier[], Expression]
@@ -13,6 +11,7 @@ function isFuncDec(arg: any): arg is FuncDec {
 // Only one memory store for all the variables.
 // Global and local variables are stored in the same memory
 export let memory = new Map<string, Value>()
+export let output: String[] = []
 memory.set("π", Math.PI);
 memory.set("sqrt", (x: number) => Math.sqrt(x));
 memory.set("sin", (x: number) => Math.sin(x));
@@ -254,7 +253,9 @@ export class PrintStatement implements Statement {
     constructor(public expression: Expression) { }
 
     interpret(): void {
-        console.log(this.expression.interpret())
+        const evaludatedExpression = this.expression.interpret()
+        output.push(evaludatedExpression.toString())
+        console.log(evaludatedExpression)
     }
 }
 

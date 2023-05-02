@@ -1,7 +1,8 @@
-import interpret, { memory, VariableDeclaration, Identifier, Numeral,
+import interpret, { memory, output, VariableDeclaration, Identifier, Numeral,
      BooleanLiteral, Assignment, 
-     FunctionDeclation, CallExpression, UnaryExpression, BinaryExpression } from "../src/bella.js";
-import { equal } from "assert";
+     FunctionDeclation, CallExpression, UnaryExpression, 
+     BinaryExpression, WhileStament, Block, ConditionalExpression, PrintStatement } from "../src/bella.js";
+import { equal, strictEqual, deepEqual } from "assert";
 
 // We will be using the bella memory to perfom our assertions
 describe("Bella", () => {
@@ -9,6 +10,8 @@ describe("Bella", () => {
     // Reset the memory after every test
     afterEach(() => {
         memory.clear()
+        // Hacky way to clear the output
+        output.length = 0
     })
 
     it("should save variables in memory", () => {
@@ -70,7 +73,6 @@ describe("Bella", () => {
         
         // Verify that X is still 10
         equal(memory.get('x'), 10)
-
     })
 
     it("should be able to call a predefined function", () => {
@@ -79,27 +81,60 @@ describe("Bella", () => {
         equal(value as number, Math.cos(10))
     })
 
-    
-    it("Print statements", () => {
-        
+
+
+    it("print an expression", () => {
+        new PrintStatement(new Numeral(4342)).interpret()
+        deepEqual(output, ["4342"])
     })
-    
-    it("While statements", () => {
+
+    it("use a while loop which can break", () => {
+        const x = new Identifier("x")
+        const y = new Identifier("y")
+
+        new VariableDeclaration(x, new Numeral(0)).interpret()
+        new VariableDeclaration(y, new Numeral(10)).interpret()
         
+        // Loop nine times
+        new WhileStament(
+            new BinaryExpression("<", x, y),
+            new Block([
+                new Assignment(x, new BinaryExpression("+", x, new Numeral(1)))
+            ])
+        ).interpret()
+
+        // Check that x is 9
+        equal(memory.get('x'), 10)
     })
     
     
     it("Conditional Expressions", () => {
+        const alternateValue = new ConditionalExpression(new BinaryExpression(">=", new Numeral(3), new Numeral(10)), new Numeral(1), new Numeral(0)).interpret()
+        equal(alternateValue, 0)
 
+        const consequentValue = new ConditionalExpression(new BinaryExpression("<=", new Numeral(3), new Numeral(10)), new Numeral(1), new Numeral(0)).interpret()
+        equal(consequentValue, 1)
     })
 
-    it("Unary Expressions", () => {
-        // const negation = new UnaryExpression("!", )
-        // const negative = new UnaryExpression("-", )
+    it("Unary Expressions should work", () => {
+        // Testing negation on boolean
+        const negationTrue = new UnaryExpression("!", new BooleanLiteral(true)).interpret()
+        equal(negationTrue, false)
+
+        // Testing negation on numeral
+        const negationNumeral = new UnaryExpression("!", new Numeral(10)).interpret()
+        equal(negationNumeral, false)
+        
+        const negative20 = new UnaryExpression("-", new Numeral(20)).interpret()
+        equal(negative20, -20)
     })
 
     it("Binary Expressions", () => {
-        
+
+    })
+
+    it("should be able to subscript into an array correctly", () => {
+
     })
 
 
