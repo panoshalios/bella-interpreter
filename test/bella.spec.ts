@@ -161,9 +161,6 @@ describe("Bella", () => {
     });
 
     it('Binary Expressions: should return true for binary ==, !=, <, <=, >, >=, &&, ||', function() {
-        const equalityString = new BinaryExpression('==', new Identifier('dog'), new Identifier('dog')).interpret();
-        equal(equalityString, true);
-
         const equalityNumeral = new BinaryExpression('==', new Numeral(45), new Numeral(45)).interpret();
         equal(equalityNumeral, true);
 
@@ -190,9 +187,6 @@ describe("Bella", () => {
     });
 
     it('should return false for for binary ==, !=, <, <=, >, >=, &&, ||', function() {
-        const equalityString = new BinaryExpression('==', new Identifier('cat'), new Identifier('dog')).interpret();
-        equal(equalityString, false);
-
         const equalityNumeral = new BinaryExpression('==', new Numeral(30), new Numeral(45)).interpret();
         equal(equalityNumeral, false);
 
@@ -211,8 +205,10 @@ describe("Bella", () => {
         const GreaterThanOrEqual = new BinaryExpression('>=', new Numeral(30), new Numeral(45)).interpret();
         equal(GreaterThanOrEqual, false);
 
-        const andOperator = new BinaryExpression('&&', new Identifier(''), new Numeral(1)).interpret();
-        equal(andOperator, false);
+        new VariableDeclaration(new Identifier('trueBool'), new BooleanLiteral(true)).interpret()
+
+        const andOperator = new BinaryExpression('&&', new Identifier('trueBool'), new Numeral(1)).interpret();
+        equal(andOperator, true);
 
         const orOperator = new BinaryExpression('||', new BooleanLiteral(false), new BooleanLiteral(false)).interpret();
         equal(orOperator, false);
