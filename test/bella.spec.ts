@@ -110,7 +110,6 @@ describe("Bella", () => {
         equal(memory.get('x'), 10)
     })
     
-    
     it("Conditional Expressions", () => {
         const alternateValue = new ConditionalExpression(new BinaryExpression(">=", new Numeral(3), new Numeral(10)), new Numeral(1), new Numeral(0)).interpret()
         equal(alternateValue, 0)
@@ -139,6 +138,16 @@ describe("Bella", () => {
         equal(valueAtIndex1, 2)
     })
 
+    it("should throw an error if trying to index into a function declations", () => {
+        const funcDec = new FunctionDeclation(new Identifier("timesTwo"), 
+            [new Identifier("x")], new BinaryExpression("*", 
+                new Identifier("x"), new Numeral(2))).interpret()
+        try {
+            const valueAtIndex1 = new SubscriptExpression(new Identifier("timesTwo"), new Numeral(1)).interpret()
+        } catch (error: any) {
+            equal(error.message, "Cannot subscript a function")
+        }
+    })
 
     it('Binary Expressions: mathematical operators should work', function() {
         const addition = new BinaryExpression('+', new Numeral(45), new Numeral(40)).interpret();
