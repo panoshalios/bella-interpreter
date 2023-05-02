@@ -1,7 +1,7 @@
 import interpret, { memory, output, VariableDeclaration, Identifier, Numeral,
      BooleanLiteral, Assignment, 
      FunctionDeclation, CallExpression, UnaryExpression, 
-     BinaryExpression, WhileStament, Block, ConditionalExpression, PrintStatement } from "../src/bella.js";
+     BinaryExpression, WhileStament, Block, ConditionalExpression, PrintStatement, SubscriptExpression, ArrayLiteral } from "../src/bella.js";
 import { equal, strictEqual, deepEqual } from "assert";
 
 // We will be using the bella memory to perfom our assertions
@@ -134,7 +134,10 @@ describe("Bella", () => {
     })
 
     it("should be able to subscript into an array correctly", () => {
+        const array = new ArrayLiteral([new Numeral(1), new Numeral(2), new Numeral(3)])
+        const valueAtIndex1 = new SubscriptExpression(array, new Numeral(1)).interpret()
 
+        equal(valueAtIndex1, 2)
     })
 
 
