@@ -84,7 +84,7 @@ describe("Bella", () => {
 
     })
 
-    it("While statements", () => {
+    it("use a while loop which can break", () => {
         const x = new Identifier("x")
         const y = new Identifier("y")
 
