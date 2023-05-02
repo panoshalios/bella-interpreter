@@ -1,6 +1,7 @@
 import interpret, { memory, VariableDeclaration, Identifier, Numeral,
      BooleanLiteral, Assignment, 
-     FunctionDeclation, CallExpression, UnaryExpression, BinaryExpression } from "../src/bella.js";
+     FunctionDeclation, CallExpression, UnaryExpression, 
+     BinaryExpression, WhileStament, Block } from "../src/bella.js";
 import { equal } from "assert";
 
 // We will be using the bella memory to perfom our assertions
@@ -84,7 +85,22 @@ describe("Bella", () => {
     })
 
     it("While statements", () => {
+        const x = new Identifier("x")
+        const y = new Identifier("y")
 
+        new VariableDeclaration(x, new Numeral(0)).interpret()
+        new VariableDeclaration(y, new Numeral(10)).interpret()
+        
+        // Loop nine times
+        new WhileStament(
+            new BinaryExpression("<", x, y),
+            new Block([
+                new Assignment(x, new BinaryExpression("+", x, new Numeral(1)))
+            ])
+        ).interpret()
+
+        // Check that x is 9
+        equal(memory.get('x'), 10)
     })
 
     it("Conditional Expressions", () => {
