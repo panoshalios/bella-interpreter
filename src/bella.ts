@@ -12,13 +12,18 @@ function isFuncDec(arg: any): arg is FuncDec {
 // Global and local variables are stored in the same memory
 export let memory = new Map<string, Value>()
 export let output: String[] = []
-memory.set("π", Math.PI);
-memory.set("sqrt", (x: number) => Math.sqrt(x));
-memory.set("sin", (x: number) => Math.sin(x));
-memory.set("cos", (x: number) => Math.cos(x));
-memory.set("exp", (x: number) => Math.exp(x));
-memory.set("ln", (x: number) => Math.log2(x));
-memory.set("hypot", (x: number) => Math.hypot(x));
+
+export function clearMemory() {
+    memory.clear()
+    memory.set("π", Math.PI);
+    memory.set("sqrt", (x: number) => Math.sqrt(x));
+    memory.set("sin", (x: number) => Math.sin(x));
+    memory.set("cos", (x: number) => Math.cos(x));
+    memory.set("exp", (x: number) => Math.exp(x));
+    memory.set("ln", (x: number) => Math.log2(x));
+    memory.set("hypot", (x: number) => Math.hypot(x));
+}
+
 
 interface Statement {
     interpret(): void
@@ -133,8 +138,11 @@ export class CallExpression implements Expression {
         // Check if the callee is either a predefined function or a user defined function
         if (typeof func === "function") {
             // Evaluating the arguments
+            console.log(this.args)
             const evaluatedArgs = this.args.map((a) => a.interpret());
-            for (const param in evaluatedArgs) {
+
+            // Loop over the evaluated arguments
+            for (const param of evaluatedArgs) {
                 if (typeof param !== "number") {
                     throw new Error("Invalid parameter type");
                 }
@@ -181,7 +189,7 @@ export class ArrayLiteral implements Expression {
 
 export class SubscriptExpression implements Expression {
     constructor(public array: Expression, public subscript: Expression) { }
-    
+
     interpret(): Value {
         const arrayValue = this.array.interpret()
         const subscriptValue = this.subscript.interpret()
@@ -218,7 +226,7 @@ export class Assignment implements Statement {
 
     interpret(): void {
         const value = memory.get(this.id.name)
-        
+
         if (value === undefined) {
             throw new Error('Variable not declared')
         }
