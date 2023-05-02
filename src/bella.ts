@@ -138,7 +138,6 @@ export class CallExpression implements Expression {
         // Check if the callee is either a predefined function or a user defined function
         if (typeof func === "function") {
             // Evaluating the arguments
-            console.log(this.args)
             const evaluatedArgs = this.args.map((a) => a.interpret());
 
             // Loop over the evaluated arguments
