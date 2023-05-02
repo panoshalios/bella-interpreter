@@ -1,8 +1,9 @@
 import interpret, { memory, clearMemory, output, VariableDeclaration, Identifier, Numeral,
      BooleanLiteral, Assignment, 
      FunctionDeclation, CallExpression, UnaryExpression, 
-     BinaryExpression, WhileStament, Block, ConditionalExpression, PrintStatement, SubscriptExpression, ArrayLiteral } from "../src/bella.js";
-import { equal, strictEqual, deepEqual } from "assert";
+     BinaryExpression, WhileStament, Block, ConditionalExpression, 
+     PrintStatement, SubscriptExpression, ArrayLiteral, Program } from "../src/bella.js";
+import { equal, deepEqual } from "assert";
 
 // We will be using the bella memory to perfom our assertions
 describe("Bella", () => {
@@ -110,7 +111,6 @@ describe("Bella", () => {
         equal(memory.get('x'), 10)
     })
     
-    
     it("Conditional Expressions", () => {
         const alternateValue = new ConditionalExpression(new BinaryExpression(">=", new Numeral(3), new Numeral(10)), new Numeral(1), new Numeral(0)).interpret()
         equal(alternateValue, 0)
@@ -138,7 +138,6 @@ describe("Bella", () => {
 
         equal(valueAtIndex1, 2)
     })
-
 
     it('Binary Expressions: mathematical operators should work', function() {
         const addition = new BinaryExpression('+', new Numeral(45), new Numeral(40)).interpret();
@@ -213,4 +212,25 @@ describe("Bella", () => {
         const orOperator = new BinaryExpression('||', new BooleanLiteral(false), new BooleanLiteral(false)).interpret();
         equal(orOperator, false);
     });
+
+    it("should be able to interpret a whole program correctly", () => {
+        const x = new Identifier("x")
+        const y = new Identifier("y")
+        const programTest = new Program(
+            new Block([
+                new VariableDeclaration(x, new Numeral(5)),
+                new VariableDeclaration(y, new Numeral(10)),
+                new PrintStatement(new BinaryExpression('*', x, y)),
+                new WhileStament(
+                    new BinaryExpression("<", x, y),
+                    new Block([
+                        new Assignment(x, new BinaryExpression("+", x, new Numeral(1))),
+                        new PrintStatement(x)
+                    ])
+                )
+            ])
+        )
+        interpret(programTest)
+        deepEqual(output, [50, 6, 7, 8, 9, 10])
+    })
 })

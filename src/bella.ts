@@ -296,30 +296,7 @@ export class Program {
 }
 
 export default function interpret(program: Program): void {
+    memory.clear()
+    output = []
     program.interpret()
 }
-
-const test: Program = new Program(
-    new Block([new PrintStatement(new Numeral(5))])
-)
-
-// Testing unary and binary expressions
-const test2: Program = new Program(
-    new Block([
-        new PrintStatement(new UnaryExpression('-', new Numeral(5))),
-        new PrintStatement(new BinaryExpression('*', new Numeral(5), new Numeral(5))),
-    ])
-)
-
-// Testing variable declaration and assignment
-const test3 = new Program(
-    new Block([
-        new VariableDeclaration(new Identifier('x'), new Numeral(5)),
-        new VariableDeclaration(new Identifier('y'), new Numeral(10)),
-        new PrintStatement(new BinaryExpression('*', new Identifier('x'), new Identifier('y'))),
-    ])
-)
-
-// console.log(sample)
-// console.log(util.inspect(sample2, { depth: null }))
-// interpret(test2)
