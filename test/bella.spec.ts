@@ -79,14 +79,16 @@ describe("Bella", () => {
         equal(value as number, Math.cos(10))
     })
 
+    
     it("Print statements", () => {
-
+        
     })
-
+    
     it("While statements", () => {
-
+        
     })
-
+    
+    
     it("Conditional Expressions", () => {
 
     })
@@ -99,6 +101,85 @@ describe("Bella", () => {
     it("Binary Expressions", () => {
         
     })
+
+
+    it('Binary Expressions: mathematical operators should work', function() {
+        const addition = new BinaryExpression('+', new Numeral(45), new Numeral(40));
+        equal(addition, 85);
+
+        const subtraction = new BinaryExpression('+', new Numeral(45), new Numeral(40));
+        equal(subtraction, 5);
+
+        const multiplication = new BinaryExpression('+', new Numeral(2), new Numeral(3));
+        equal(multiplication, 6);
+
+        const division = new BinaryExpression('+', new Numeral(45), new Numeral(5));
+        equal(division, 9);
+
+        const modulo = new BinaryExpression('%', new Numeral(10), new Numeral(10));
+        equal(modulo, 0);
+
+        const exponentiation = new BinaryExpression('**', new Numeral(2), new Numeral(2));
+        equal(exponentiation, 4);
+    });
+
+    it('Binary Expressions: should return true for binary ==, !=, <, <=, >, >=, &&, ||', function() {
+        const equalityString = new BinaryExpression('==', new Identifier('dog'), new Identifier('dog'));
+        equal.strictEqual(equalityString, true);
+
+        const equalityNumeral = new BinaryExpression('==', new Numeral(45), new Numeral(45));
+        equal.strictEqual(equalityNumeral, true);
+
+        const notEqual = new BinaryExpression('!=', new Numeral(40), new Numeral(45));
+        equal.strictEqual(notEqual, true);
+
+        const lessThan = new BinaryExpression('<', new Numeral(40), new Numeral(45));
+        equal.strictEqual(lessThan, true);
+
+        const LessThanOrEqual = new BinaryExpression('<=', new Numeral(40), new Numeral(45));
+        equal.strictEqual(LessThanOrEqual, true);
+
+        const GreaterThan = new BinaryExpression('>', new Numeral(60), new Numeral(45));
+        equal.strictEqual(GreaterThan, true);
+
+        const GreaterThanOrEqual = new BinaryExpression('>=', new Numeral(70), new Numeral(45));
+        equal.strictEqual(GreaterThanOrEqual, true);
+
+        // const andOperator = new BinaryExpression('&&', new Numeral(40), new Numeral(45));
+        // equal.strictEqual(andOperator, true);
+
+        // const orOperator = new BinaryExpression('||', new Numeral(40), new Numeral(45));
+        // equal.strictEqual(orOperator, true);
+    });
+
+    it('should return false for for binary ==, !=, <, <=, >, >=, &&, ||', function() {
+        const equalityString = new BinaryExpression('==', new Identifier('cat'), new Identifier('dog'));
+        equal.strictEqual(equalityString, true);
+
+        const equalityNumeral = new BinaryExpression('==', new Numeral(30), new Numeral(45));
+        equal.strictEqual(equalityNumeral, true);
+
+        const notEqual = new BinaryExpression('!=', new Numeral(40), new Numeral(40));
+        equal.strictEqual(notEqual, true);
+
+        const lessThan = new BinaryExpression('<', new Numeral(50), new Numeral(45));
+        equal.strictEqual(lessThan, true);
+
+        const LessThanOrEqual = new BinaryExpression('<=', new Numeral(60), new Numeral(45));
+        equal.strictEqual(LessThanOrEqual, true);
+
+        const GreaterThan = new BinaryExpression('>', new Numeral(40), new Numeral(45));
+        equal.strictEqual(GreaterThan, true);
+
+        const GreaterThanOrEqual = new BinaryExpression('>=', new Numeral(30), new Numeral(45));
+        equal.strictEqual(GreaterThanOrEqual, true);
+
+        // const andOperator = new BinaryExpression('&&', new Numeral(40), new Numeral(45));
+        // equal.strictEqual(andOperator, true);
+
+        // const orOperator = new BinaryExpression('||', new Numeral(40), new Numeral(45));
+        // equal.strictEqual(orOperator, true);
+    });
 })
 
 // describe("Bella Statements", () => {
