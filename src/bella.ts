@@ -9,7 +9,6 @@ function isFuncDec(arg: any): arg is FuncDec {
 }
 
 // Only one memory store for all the variables.
-// Global and local variables are stored in the same memory
 export let memory = new Map<string, Value>()
 export let output: String[] = []
 
