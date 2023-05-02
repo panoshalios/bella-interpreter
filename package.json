@@ -1,0 +1,23 @@
+{
+  "name": "bella-interpreter",
+  "version": "1.0.0",
+  "description": "an interpreter for the programming language bella",
+  "main": "bella.js",
+  "type": "module",
+  "scripts": {
+    "watch": "tsc -w",
+    "dev": "nodemon out/src/bella.js",
+    "test": "tsc && mocha out/**/*.spec.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/jest": "^29.5.1",
+    "@types/mocha": "^10.0.1",
+    "@types/node": "^18.16.3",
+    "mocha": "^10.2.0",
+    "nodemon": "^2.0.22",
+    "tsc": "^2.0.4",
+    "typescript": "^5.0.4"
+  }
+}
