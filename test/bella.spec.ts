@@ -111,9 +111,17 @@ describe("Bella", () => {
         equal(consequentValue, 1)
     })
 
-    it("Unary Expressions", () => {
-        // const negation = new UnaryExpression("!", )
-        // const negative = new UnaryExpression("-", )
+    it("Unary Expressions should work", () => {
+        // Testing negation on boolean
+        const negationTrue = new UnaryExpression("!", new BooleanLiteral(true)).interpret()
+        equal(negationTrue, false)
+
+        // Testing negation on numeral
+        const negationNumeral = new UnaryExpression("!", new Numeral(10)).interpret()
+        equal(negationNumeral, false)
+        
+        const negative20 = new UnaryExpression("-", new Numeral(20)).interpret()
+        equal(negative20, -20)
     })
 
     it("Binary Expressions", () => {
